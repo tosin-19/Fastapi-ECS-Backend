@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPO: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/myapp
+  ECR_REPO: <611837360680>.dkr.ecr.us-east-1.amazonaws.com/myapp
 
 jobs:
   test:
