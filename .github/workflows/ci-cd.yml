@@ -23,7 +23,7 @@ jobs:
       - name: Run tests
         run: |
           python -m pip install --upgrade pip
-          pip install -r "backend/requirements.txt"
+          pip install -r "backendapi/requirements.txt"
           cd backend
           pytest
 
@@ -43,10 +43,10 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
+          context: ./backendapi
           push: true
           tags: ${{ env.ECR_REPO }}:${{ github.sha }}
-          file: ./backend/Dockerfile
+          file: ./backendapi/Dockerfile
 
   deploy:
     needs: build-and-push
