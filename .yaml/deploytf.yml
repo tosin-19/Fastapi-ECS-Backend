@@ -9,7 +9,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      AWS_REGION: us-east-1
+      AWS_REGION: eu-north-1
       ECR_REPO: 611837360680.dkr.ecr.us-east-1.amazonaws.com/myapp  # <-- change if your ECR repo name differs
 
     steps:
@@ -35,7 +35,7 @@ jobs:
     needs: build-and-push   # Waits for build-and-push to finish
     runs-on: ubuntu-latest
     env:
-      AWS_REGION: us-east-1
+      AWS_REGION: eu-north-1
       ECR_REPO: 611837360680.dkr.ecr.us-east-1.amazonaws.com/myapp
 
     steps:
