@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: eu-north-1
-  ECR_REPO: 611837360680.dkr.ecr.eu-north-1.amazonaws.com/myapp  # Your ECR repo
+  ECR_REPO: 611837360680.dkr.ecr.eu-north-1.amazonaws.com/myapp
 
 jobs:
   build-and-push:
@@ -17,33 +17,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
         with:
+          registry-type: private
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to ECR
-        uses: aws-actions/amazon-ecr-login@v2
-        with:
-          registry-type: private
-        env:
-          AWS_REGION: ${{ env.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
       - name: Build Docker image
-        run: |
-          docker build -t myapp:${{ github.sha }} .
+        run: docker build -t myapp:${{ github.sha }} .
 
       - name: Tag Docker image
-        run: |
-          docker tag myapp:${{ github.sha }} $ECR_REPO:${{ github.sha }}
+        run: docker tag myapp:${{ github.sha }} $ECR_REPO:${{ github.sha }}
 
       - name: Push Docker image to ECR
-        run: |
-          docker push $ECR_REPO:${{ github.sha }}
+        run: docker push $ECR_REPO:${{ github.sha }}
 
   deploy:
     name: Deploy to ECS via Terraform
@@ -53,7 +42,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials for Terraform
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
