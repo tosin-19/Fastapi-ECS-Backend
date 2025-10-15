@@ -63,6 +63,8 @@ jobs:
 
       - name: Terraform Apply
         working-directory: infra
+        variable:
+          - image_uri=${IMAGE_URI}
         env:
           IMAGE_URI: ${{ env.ECR_REPO }}:${{ github.sha }}
-        run: terraform apply -auto-approve -var "image_uri=${IMAGE_URI}"
+        run: terraform apply -auto-approve -var "image_uri"
