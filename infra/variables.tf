@@ -18,19 +18,9 @@ variable "container_name" {
   default     = "myapp"
 }
 
-variable "container_image" {
-  description = "ECR image URI for the container (e.g., 123456789012.dkr.ecr.us-east-1.amazonaws.com/myapp:latest)"
-  default     = "YOUR_ECR_REPO_URI:latest"
-}
-
 variable "container_port" {
   description = "Port exposed by the container"
   default     = 8080
-}
-
-variable "image_uri" {
-  description = "ECR image URI for the ECS task"
-  type        = string
 }
 
 variable "image_uri" {
