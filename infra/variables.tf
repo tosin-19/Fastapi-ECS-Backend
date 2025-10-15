@@ -32,3 +32,8 @@ variable "image_uri" {
   description = "ECR image URI for the ECS task"
   type        = string
 }
+
+variable "image_uri" {
+  description = "Docker image URI to use in ECS task definition"
+  type        = string
+}
