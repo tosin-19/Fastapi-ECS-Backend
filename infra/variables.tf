@@ -27,3 +27,8 @@ variable "container_port" {
   description = "Port exposed by the container"
   default     = 8080
 }
+
+variable "image_uri" {
+  description = "ECR image URI for the ECS task"
+  type        = string
+}

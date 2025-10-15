@@ -31,15 +31,18 @@ resource "aws_ecs_cluster" "main" {
 ###############################################
 resource "aws_iam_role" "ecs_task_execution" {
   name = "ecsTaskExecutionRole"
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
-    Statement = [{
-      Action = "sts:AssumeRole",
-      Effect = "Allow",
-      Principal = {
-        Service = "ecs-tasks.amazonaws.com"
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
       }
-    }]
+    ]
   })
 }
 
@@ -63,12 +66,13 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = "myapp"
-      image     = "611837360680.dkr.ecr.eu-north-1.amazonaws.com/myapp:latest" # Replace with your real ECR URL
+      image     = var.image_uri              # ✅ Correct syntax
       essential = true
       portMappings = [
         {
           containerPort = 8000
           hostPort      = 8000
+          protocol      = "tcp"
         }
       ]
     }
@@ -76,7 +80,7 @@ resource "aws_ecs_task_definition" "app" {
 }
 
 ###############################################
-# ECS Service (Optional - Run your task)
+# ECS Service
 ###############################################
 resource "aws_ecs_service" "app_service" {
   name            = "myapp-service"
