@@ -6,9 +6,6 @@ on:
       - main  # Runs when you push to main branch
 
 jobs:
-  #######################################################
-  # 1️⃣ Build and Push Docker Image to Amazon ECR
-  #######################################################
   build-and-push:
     runs-on: ubuntu-latest
     env:
@@ -34,9 +31,6 @@ jobs:
           docker build -t $ECR_REPO:${{ github.sha }} .
           docker push $ECR_REPO:${{ github.sha }}
 
-  #######################################################
-  # 2️⃣ Deploy to AWS ECS using Terraform
-  #######################################################
   deploy:
     needs: build-and-push   # Waits for build-and-push to finish
     runs-on: ubuntu-latest
