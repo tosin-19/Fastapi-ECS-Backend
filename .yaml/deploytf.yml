@@ -3,15 +3,15 @@ name: CI/CD to AWS ECS
 on:
   push:
     branches:
-      - main  # Runs when you push to main branch
+      - main  
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
       AWS_REGION: eu-north-1
-      ECR_REPO: 611837360680.dkr.ecr.us-east-1.amazonaws.com/myapp  # <-- change if your ECR repo name differs
-
+      ECR_REPO: 611837360680.dkr.ecr.eu-north-1.amazonaws.com/myapp
+      
     steps:
       - uses: actions/checkout@v4
 
@@ -32,11 +32,11 @@ jobs:
           docker push $ECR_REPO:${{ github.sha }}
 
   deploy:
-    needs: build-and-push   # Waits for build-and-push to finish
+    needs: build-and-push   
     runs-on: ubuntu-latest
     env:
       AWS_REGION: eu-north-1
-      ECR_REPO: 611837360680.dkr.ecr.us-east-1.amazonaws.com/myapp
+      ECR_REPO: 611837360680.dkr.ecr.eu-north-1.amazonaws.com/myapp
 
     steps:
       - uses: actions/checkout@v4
